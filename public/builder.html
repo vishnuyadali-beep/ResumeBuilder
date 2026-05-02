@@ -1,0 +1,221 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    builder.html — Resume builder and preview page
+    Select which jobs, skills, certifications, and awards to include,
+    pick a visual template (Classic, Modern, or Minimal), then generate
+    a print-ready resume preview. The AI tailor section lets Gemini suggest
+    specific rewrites to match a target job description.
+    Powered by public/js/builder.js and public/css/styles.css.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Resume - Resume Builder</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/dashboard.html">Resume Builder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs.html">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skills.html">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/certifications.html">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/awards.html">Awards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/targetjobs.html">Target Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/builder.html">Build Resume</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light" id="spnUserName"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+    <!-- Builder Selection Panel -->
+    <div class="container py-4 no-print" id="divBuilderPanel">
+        <h2 class="fw-bold mb-1">Build Your Resume</h2>
+        <p class="text-muted mb-4">Select the items to include, choose a style, then click Generate.</p>
+
+        <!-- Style selector -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header"><h3 class="h5 mb-0">Resume Style</h3></div>
+            <div class="card-body">
+                <div class="d-flex gap-4 flex-wrap" role="group" aria-label="Resume template options">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="radTemplate" id="radClassic" value="classic" checked aria-label="Classic template">
+                        <label class="form-check-label fw-semibold" for="radClassic">Classic</label>
+                        <div class="text-muted small">Serif font, navy headings</div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="radTemplate" id="radModern" value="modern" aria-label="Modern template">
+                        <label class="form-check-label fw-semibold" for="radModern">Modern</label>
+                        <div class="text-muted small">Sans-serif, blue accents</div>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="radTemplate" id="radMinimal" value="minimal" aria-label="Minimal template">
+                        <label class="form-check-label fw-semibold" for="radMinimal">Minimal</label>
+                        <div class="text-muted small">Clean, black and white</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Work Experience</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnSelectAllJobs" aria-label="Select all jobs and details">Select All</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="btnDeselectAllJobs" aria-label="Deselect all jobs and details">Deselect All</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="divJobSelection" class="accordion" aria-label="Select jobs and responsibilities">
+                    <p class="text-muted">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Skills</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnSelectAllSkills" aria-label="Select all skills">Select All</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="btnDeselectAllSkills" aria-label="Deselect all skills">Deselect All</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="divSkillSelection" class="row g-2" aria-label="Select skills">
+                    <p class="text-muted">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Certifications</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnSelectAllCerts" aria-label="Select all certifications">Select All</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="btnDeselectAllCerts" aria-label="Deselect all certifications">Deselect All</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="divCertSelection" class="row g-2" aria-label="Select certifications">
+                    <p class="text-muted">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Awards -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Awards</h3>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" id="btnSelectAllAwards" aria-label="Select all awards">Select All</button>
+                    <button class="btn btn-sm btn-outline-secondary" id="btnDeselectAllAwards" aria-label="Deselect all awards">Deselect All</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="divAwardSelection" class="row g-2" aria-label="Select awards">
+                    <p class="text-muted">Loading...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile warning -->
+        <div id="divProfileWarning" class="alert alert-warning d-none" role="alert">
+            Your profile is missing a name or email. <a href="/dashboard.html" class="alert-link">Update your profile</a> before generating.
+        </div>
+
+        <button class="btn btn-primary btn-lg px-5 mb-5" id="btnGenerate" aria-label="Generate resume preview">Generate Preview</button>
+    </div>
+
+    <!-- Resume Preview Panel -->
+    <div id="divPreviewWrapper" class="container py-4 d-none">
+
+        <!-- Preview controls -->
+        <div class="d-flex justify-content-between align-items-center mb-3 no-print flex-wrap gap-2">
+            <h4 class="fw-bold mb-0">Resume Preview</h4>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary" id="btnBackToBuilder" aria-label="Back to selection">Back</button>
+                <button class="btn btn-dark" id="btnPrint" aria-label="Print resume">Print Resume</button>
+            </div>
+        </div>
+
+        <!-- AI Tailor section -->
+        <div class="card shadow-sm mb-4 no-print">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Tailor with AI</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-3">Select a saved target job or paste a job description, then click Tailor to get AI suggestions for improving your resume match.</p>
+                <div class="mb-3">
+                    <label for="selTargetJob" class="form-label">Load a Saved Target Job</label>
+                    <select class="form-select" id="selTargetJob" aria-label="Select a saved target job">
+                        <option value="">— Select a target job —</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="txaTailorDescription" class="form-label">Job Description</label>
+                    <textarea class="form-control" id="txaTailorDescription" rows="6" aria-label="Job description for AI tailoring" placeholder="Paste the job description here..."></textarea>
+                </div>
+                <button class="btn btn-primary" id="btnTailor" aria-label="Get AI tailoring suggestions">Get Tailoring Suggestions</button>
+                <div id="divTailorResult" class="alert alert-info mt-3 d-none" role="region" aria-label="AI tailoring suggestions">
+                    <strong>AI Suggestions:</strong>
+                    <div id="divTailorText" class="mt-2" style="white-space: pre-wrap;"></div>
+                    <hr class="my-2">
+                    <button class="btn btn-sm btn-success" id="btnAutoFill" aria-label="Auto-fill resume preview with AI rewrites">Auto-Fill Resume</button>
+                    <span class="text-muted small ms-2">Rewrites your summary and bullet points in the preview below.</span>
+                </div>
+                <div id="divTailorAlert" class="alert alert-warning mt-3 d-none" role="alert"></div>
+            </div>
+        </div>
+
+        <!-- Resume document -->
+        <div class="resume-preview template-classic" id="divResumePreview" role="document" aria-label="Resume preview">
+            <div class="mb-3">
+                <div class="resume-name" id="rName"></div>
+                <p class="resume-contact" id="rContact"></p>
+            </div>
+            <div id="rSummarySection">
+                <div class="resume-section-title">Professional Summary</div>
+                <p id="rSummary" class="mb-0"></p>
+            </div>
+            <div id="rExperienceSection">
+                <div class="resume-section-title">Work Experience</div>
+                <div id="rExperienceItems"></div>
+            </div>
+            <div id="rSkillsSection">
+                <div class="resume-section-title">Skills</div>
+                <div id="rSkillItems"></div>
+            </div>
+            <div id="rCertsSection">
+                <div class="resume-section-title">Certifications</div>
+                <ul id="rCertItems" class="mb-0" style="padding-left:1.2rem;"></ul>
+            </div>
+            <div id="rAwardsSection">
+                <div class="resume-section-title">Awards &amp; Recognition</div>
+                <ul id="rAwardItems" class="mb-0" style="padding-left:1.2rem;"></ul>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/builder.js"></script>
+</body>
+</html>

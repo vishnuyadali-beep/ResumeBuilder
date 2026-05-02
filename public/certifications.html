@@ -1,0 +1,94 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    certifications.html — Certifications management page
+    Add/edit form on the left, certification list on the right.
+    Powered by public/js/certifications.js.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certifications - Resume Builder</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/dashboard.html">Resume Builder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs.html">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skills.html">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/certifications.html">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/awards.html">Awards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/targetjobs.html">Target Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/builder.html">Build Resume</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light" id="spnUserName"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="row g-4">
+
+            <!-- Add / Edit Cert Form -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0" id="hCertFormTitle">Add a Certification</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="frmCert" novalidate>
+                            <div class="mb-3">
+                                <label for="inpCertName" class="form-label">Certification Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inpCertName" aria-label="Certification name" placeholder="e.g. AWS Solutions Architect" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inpCertIssuer" class="form-label">Issuing Organization</label>
+                                <input type="text" class="form-control" id="inpCertIssuer" aria-label="Issuing organization" placeholder="e.g. Amazon Web Services">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inpCertYear" class="form-label">Year Obtained</label>
+                                <input type="number" class="form-control" id="inpCertYear" aria-label="Year obtained" placeholder="e.g. 2024" min="1950" max="2099">
+                            </div>
+                            <div id="divCertAlert" class="alert d-none" role="alert"></div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary" id="btnSaveCert">Add Certification</button>
+                                <button type="button" class="btn btn-secondary d-none" id="btnCancelCertEdit">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cert List -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">My Certifications</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul id="ulCertList" class="list-group list-group-flush" aria-label="Certifications list"></ul>
+                        <p id="pNoCerts" class="text-center text-muted py-4 d-none">No certifications yet. Add your first one!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/certifications.js"></script>
+</body>
+</html>

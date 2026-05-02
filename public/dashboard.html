@@ -1,0 +1,179 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    dashboard.html — Main dashboard page
+    Shows stat counts, navigation cards to each section, and a
+    collapsible profile/settings form (including the Gemini API key field).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Resume Builder</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark no-print" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/dashboard.html">Resume Builder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs.html">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skills.html">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/certifications.html">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/awards.html">Awards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/targetjobs.html">Target Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/builder.html">Build Resume</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light" id="spnUserName"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="mb-4">
+            <h2 class="fw-bold">Welcome back, <span id="spnWelcomeName"></span></h2>
+            <p class="text-muted">Manage your resume data and build your tailored resume below.</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row g-3 mb-5">
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 fw-bold text-primary" id="spnJobCount">-</div>
+                        <div class="text-muted small">Jobs</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 fw-bold text-success" id="spnSkillCount">-</div>
+                        <div class="text-muted small">Skills</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 fw-bold text-dark" id="spnCertCount">-</div>
+                        <div class="text-muted small">Certifications</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm text-center h-100">
+                    <div class="card-body">
+                        <div class="display-6 fw-bold text-dark" id="spnAwardCount">-</div>
+                        <div class="text-muted small">Awards</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Cards -->
+        <div class="row g-3 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <a href="/jobs.html" class="text-decoration-none">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h3 class="h5 card-title">Jobs</h3>
+                            <p class="card-text text-muted small">Add your work experience and responsibilities.</p>
+                        </div>
+                        <div class="card-footer bg-primary text-white text-center py-2 small">Manage Jobs</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="/skills.html" class="text-decoration-none">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h3 class="h5 card-title">Skills</h3>
+                            <p class="card-text text-muted small">List your technical and professional skills.</p>
+                        </div>
+                        <div class="card-footer bg-success text-white text-center py-2 small">Manage Skills</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="/certifications.html" class="text-decoration-none">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h3 class="h5 card-title">Certifications</h3>
+                            <p class="card-text text-muted small">Track your professional certifications.</p>
+                        </div>
+                        <div class="card-footer bg-warning text-dark text-center py-2 small">Manage Certifications</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <a href="/awards.html" class="text-decoration-none">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-body">
+                            <h3 class="h5 card-title">Awards</h3>
+                            <p class="card-text text-muted small">Highlight recognitions and achievements.</p>
+                        </div>
+                        <div class="card-footer bg-info text-dark text-center py-2 small">Manage Awards</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mb-5">
+            <a href="/builder.html" class="btn btn-dark btn-lg px-5">Build My Resume</a>
+        </div>
+
+        <!-- Profile / Settings -->
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Profile &amp; Settings</h3>
+                <button class="btn btn-sm btn-outline-secondary" id="btnToggleProfile" aria-expanded="false" aria-controls="divProfileForm">Edit</button>
+            </div>
+            <div class="card-body d-none" id="divProfileForm">
+                <form id="frmProfile" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="inpProfileName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="inpProfileName" aria-label="Full name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inpProfilePhone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="inpProfilePhone" aria-label="Phone number" placeholder="(555) 555-5555">
+                        </div>
+                        <div class="col-12">
+                            <label for="inpProfileAddress" class="form-label">City, State</label>
+                            <input type="text" class="form-control" id="inpProfileAddress" aria-label="City and state" placeholder="e.g. Austin, TX">
+                        </div>
+                        <div class="col-12">
+                            <label for="txaProfileSummary" class="form-label">Professional Summary</label>
+                            <textarea class="form-control" id="txaProfileSummary" rows="3" aria-label="Professional summary" placeholder="A brief overview of your professional background..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label for="inpGeminiKey" class="form-label">Gemini API Key</label>
+                            <input type="password" class="form-control" id="inpGeminiKey" aria-label="Gemini API key" placeholder="Paste your Gemini API key here">
+                            <div class="form-text">Used for AI resume suggestions. Get a free key at <strong>aistudio.google.com</strong></div>
+                        </div>
+                    </div>
+                    <div id="divProfileAlert" class="alert d-none mt-3" role="alert"></div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

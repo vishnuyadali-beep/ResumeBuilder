@@ -1,0 +1,135 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    index.html — Login and registration page
+    The only page that does not require authentication. Contains two tabs:
+    Login (POST /api/sessions) and Register (POST /api/users).
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder - Login</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center min-vh-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="text-center mb-4">
+                    <h1 class="fw-bold text-dark">Resume Builder</h1>
+                    <p class="text-muted">Build a resume tailored to any job.</p>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <!-- Tabs -->
+                        <ul class="nav nav-tabs mb-4" role="tablist" aria-label="Login or Register">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="tabLogin" data-bs-toggle="tab" data-bs-target="#divLoginPanel" type="button" role="tab" aria-controls="divLoginPanel" aria-selected="true">Login</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="tabRegister" data-bs-toggle="tab" data-bs-target="#divRegisterPanel" type="button" role="tab" aria-controls="divRegisterPanel" aria-selected="false">Register</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <!-- Login Panel -->
+                            <div class="tab-pane fade show active" id="divLoginPanel" role="tabpanel" aria-labelledby="tabLogin">
+                                <form id="frmLogin" novalidate>
+                                    <div class="mb-3">
+                                        <label for="inpLoginEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inpLoginEmail" aria-label="Email address" placeholder="you@example.com" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="inpLoginPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="inpLoginPassword" aria-label="Password" placeholder="Password" required>
+                                    </div>
+                                    <div id="divLoginAlert" class="alert d-none" role="alert"></div>
+                                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                                </form>
+                            </div>
+
+                            <!-- Register Panel -->
+                            <div class="tab-pane fade" id="divRegisterPanel" role="tabpanel" aria-labelledby="tabRegister">
+                                <form id="frmRegister" novalidate>
+                                    <div class="mb-3">
+                                        <label for="inpRegName" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="inpRegName" aria-label="Full name" placeholder="Jane Smith" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="inpRegEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="inpRegEmail" aria-label="Email address" placeholder="you@example.com" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="inpRegPassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="inpRegPassword" aria-label="Password (minimum 8 characters)" placeholder="Minimum 8 characters" required>
+                                    </div>
+                                    <div id="divRegisterAlert" class="alert d-none" role="alert"></div>
+                                    <button type="submit" class="btn btn-success w-100">Create Account</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('frmLogin').addEventListener('submit', async (evt) => {
+            evt.preventDefault()
+            const elAlert = document.getElementById('divLoginAlert')
+            elAlert.className = 'alert d-none'
+
+            const strEmail = document.getElementById('inpLoginEmail').value.trim()
+            const strPassword = document.getElementById('inpLoginPassword').value
+
+            const objRes = await fetch('/api/sessions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: strEmail, password: strPassword })
+            })
+            const objData = await objRes.json()
+
+            if (!objRes.ok) {
+                elAlert.className = 'alert alert-danger'
+                elAlert.textContent = objData.message
+                return
+            }
+
+            localStorage.setItem('strAuthToken', objData.token)
+            localStorage.setItem('strUserName', objData.name)
+            window.location.href = '/dashboard.html'
+        })
+
+        document.getElementById('frmRegister').addEventListener('submit', async (evt) => {
+            evt.preventDefault()
+            const elAlert = document.getElementById('divRegisterAlert')
+            elAlert.className = 'alert d-none'
+
+            const strName = document.getElementById('inpRegName').value.trim()
+            const strEmail = document.getElementById('inpRegEmail').value.trim()
+            const strPassword = document.getElementById('inpRegPassword').value
+
+            const objRes = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: strName, email: strEmail, password: strPassword })
+            })
+            const objData = await objRes.json()
+
+            if (!objRes.ok) {
+                elAlert.className = 'alert alert-danger'
+                elAlert.textContent = objData.message
+                return
+            }
+
+            elAlert.className = 'alert alert-success'
+            elAlert.textContent = 'Account created! You can now log in.'
+            document.getElementById('frmRegister').reset()
+        })
+    </script>
+</body>
+</html>

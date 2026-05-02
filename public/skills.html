@@ -1,0 +1,103 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    skills.html — Skills management page
+    Add form on the left, grouped skill list on the right.
+    Includes an AI suggest button that returns a professional phrasing
+    and recommended category from Gemini.
+    Powered by public/js/skills.js.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills - Resume Builder</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/dashboard.html">Resume Builder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/jobs.html">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/skills.html">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/certifications.html">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/awards.html">Awards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/targetjobs.html">Target Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/builder.html">Build Resume</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light" id="spnUserName"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="row g-4">
+
+            <!-- Add / Edit Skill Form -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0" id="hSkillFormTitle">Add a Skill</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="frmSkill" novalidate>
+                            <div class="mb-3">
+                                <label for="inpSkillName" class="form-label">Skill Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inpSkillName" aria-label="Skill name" placeholder="e.g. JavaScript" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inpSkillCategory" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="inpSkillCategory" aria-label="Skill category" placeholder="e.g. Programming Languages">
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" id="btnSkillAISuggest" aria-label="Get AI suggestion for skill name and category">Get AI Suggestion</button>
+                                <div id="divSkillAISuggestion" class="alert alert-info mt-2 d-none" role="region" aria-label="AI skill suggestion">
+                                    <strong>AI Suggestion:</strong>
+                                    <p id="pSkillSuggestionText" class="mb-2 mt-1"></p>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-sm btn-success" id="btnApplySkillSuggestion" aria-label="Apply skill suggestion">Apply</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDismissSkillSuggestion" aria-label="Dismiss skill suggestion">Dismiss</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divSkillAlert" class="alert d-none" role="alert"></div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary" id="btnSaveSkill">Add Skill</button>
+                                <button type="button" class="btn btn-secondary d-none" id="btnCancelSkillEdit">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skill List -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">My Skills</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="divSkillList" aria-label="Skills list"></div>
+                        <p id="pNoSkills" class="text-center text-muted py-4 d-none">No skills yet. Add your first one!</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/skills.js"></script>
+</body>
+</html>

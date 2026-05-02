@@ -1,0 +1,150 @@
+<!--
+    Resume Builder — Generated with Claude Code (Anthropic)
+    jobs.html — Work experience management page
+    Two-panel layout: job list on the left, job detail / add-edit form on the right.
+    Responsibilities support inline editing and AI improvement suggestions.
+    Powered by public/js/jobs.js.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs - Resume Builder</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main navigation">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/dashboard.html">Resume Builder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/jobs.html">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/skills.html">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/certifications.html">Certifications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/awards.html">Awards</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/targetjobs.html">Target Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/builder.html">Build Resume</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-light" id="spnUserName"></span>
+                    <button class="btn btn-outline-light btn-sm" id="btnLogout" aria-label="Logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid py-4">
+        <div class="row g-4">
+
+            <!-- Job List Column -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">My Jobs</h5>
+                        <button class="btn btn-primary btn-sm" id="btnNewJob" aria-label="Add a new job">+ Add Job</button>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="divJobList" class="list-group list-group-flush" role="list" aria-label="Jobs list"></div>
+                        <p id="pNoJobs" class="text-center text-muted py-4 d-none">No jobs yet. Add your first one!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel Column -->
+            <div class="col-lg-8">
+
+                <!-- Add / Edit Job Form -->
+                <div id="divJobForm" class="card shadow-sm mb-4 d-none">
+                    <div class="card-header">
+                        <h5 class="mb-0" id="hJobFormTitle">Add New Job</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="frmJob" novalidate>
+                            <div class="mb-3">
+                                <label for="inpJobTitle" class="form-label">Job Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inpJobTitle" aria-label="Job title" placeholder="e.g. Software Engineer" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inpCompany" class="form-label">Company <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="inpCompany" aria-label="Company name" placeholder="e.g. Acme Corp" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="inpStartDate" class="form-label">Start Date</label>
+                                    <input type="month" class="form-control" id="inpStartDate" aria-label="Start date">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="inpEndDate" class="form-label">End Date</label>
+                                    <input type="month" class="form-control" id="inpEndDate" aria-label="End date">
+                                    <div class="form-check mt-2">
+                                        <input type="checkbox" class="form-check-input" id="chkCurrentJob" aria-label="I currently work here">
+                                        <label class="form-check-label" for="chkCurrentJob">I currently work here</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divJobAlert" class="alert d-none" role="alert"></div>
+                            <button type="submit" class="btn btn-primary" id="btnSaveJob">Save Job</button>
+                            <button type="button" class="btn btn-secondary ms-2" id="btnCancelJobForm">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Job Details Panel -->
+                <div id="divJobDetails" class="card shadow-sm d-none">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-0" id="hDetailJobTitle"></h5>
+                            <small class="text-muted" id="spnDetailJobDates"></small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" id="btnEditJob" aria-label="Edit this job">Edit</button>
+                            <button class="btn btn-sm btn-outline-danger" id="btnDeleteJob" aria-label="Delete this job">Delete</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="mb-3">Responsibilities &amp; Details</h6>
+                        <ul id="ulDetailList" class="list-group list-group-flush mb-4" aria-label="Job details"></ul>
+                        <p id="pNoDetails" class="text-muted small d-none">No details yet. Add one below.</p>
+
+                        <!-- Add Detail -->
+                        <div class="border-top pt-3">
+                            <label for="txaNewDetail" class="form-label fw-semibold">Add a Responsibility</label>
+                            <textarea class="form-control" id="txaNewDetail" rows="3" aria-label="New job responsibility or achievement" placeholder="e.g. Led a team of 5 engineers to deliver a payment system..."></textarea>
+                            <div class="mt-2 d-flex gap-2 flex-wrap">
+                                <button class="btn btn-sm btn-primary" id="btnAddDetail" aria-label="Save this detail">Add Detail</button>
+                                <button class="btn btn-sm btn-outline-secondary" id="btnGetSuggestion" aria-label="Get an AI suggestion for this text">Get AI Suggestion</button>
+                            </div>
+                            <!-- AI Suggestion panel -->
+                            <div id="divAISuggestion" class="alert alert-info mt-3 d-none" role="region" aria-label="AI suggestion result">
+                                <strong>AI Suggestion:</strong>
+                                <p id="pSuggestionText" class="mb-2 mt-1"></p>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-success" id="btnApplySuggestion" aria-label="Apply AI suggestion">Apply</button>
+                                    <button class="btn btn-sm btn-outline-secondary" id="btnDismissSuggestion" aria-label="Dismiss suggestion">Dismiss</button>
+                                </div>
+                            </div>
+                            <div id="divDetailAlert" class="alert d-none mt-2" role="alert"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty state -->
+                <div id="divSelectPrompt" class="text-center text-muted py-5">
+                    <p class="fs-5">Select a job from the list or click <strong>+ Add Job</strong> to get started.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/jobs.js"></script>
+</body>
+</html>
